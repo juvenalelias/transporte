@@ -31,8 +31,10 @@ public class InterlocutorController {
 	@GetMapping
 	@RequestMapping(method = RequestMethod.GET, produces = {"application/json"})//value = "/{id}", 
 	@ResponseBody
-    public ResponseEntity<?> getInterlocutores() {
-		return ResponseEntity.ok(interlocutorService.findAll());
+    public ResponseEntity<List<Interlocutor>> getInterlocutores() {
+		List<Interlocutor> interlocutores = interlocutorService.findAll();
+        return new ResponseEntity<>(interlocutores, HttpStatus.OK);
+//		return ResponseEntity.ok(interlocutorService.findAll());
 		 
 	}
 	
@@ -44,13 +46,21 @@ public class InterlocutorController {
     }
 	
 	@PostMapping("/create")
-//	@ResponseBody
-    public Interlocutor create(@RequestBody Interlocutor interlocutor) {
-        return interlocutorService.save(interlocutor);
+    public ResponseEntity<Interlocutor> createInterlocutor(@RequestBody Interlocutor interlocutor) {
+		Interlocutor emp = interlocutorService.save(interlocutor);
+        return new ResponseEntity<>(emp, HttpStatus.OK);
+//		return interlocutorService.save(interlocutor);
     }
 	
-	@PutMapping("/update/{interlocutorId}")
-//	@ResponseBody
+	@PutMapping("/update")
+    public ResponseEntity<Interlocutor> updateInterlocutor(@RequestBody Interlocutor interlocutor) {
+ 
+		Interlocutor intr = interlocutorService.update(interlocutor);
+        return new ResponseEntity<>(intr, HttpStatus.OK);
+    }
+	
+	/*@PutMapping("/update/{interlocutorId}")
+	@ResponseBody
     public Optional<Interlocutor> update(@PathVariable InterlocutorId interlocutorId, @RequestBody Interlocutor interRequest) {
         return interlocutorService.findById(interlocutorId).map(inter -> {
         	inter.setNombre1(interRequest.getNombre1());
@@ -66,7 +76,7 @@ public class InterlocutorController {
         	
             return interlocutorService.save(inter);
         });
-    }
+    }*/
 	
 
 }

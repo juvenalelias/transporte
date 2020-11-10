@@ -1,6 +1,7 @@
 package co.com.interlocutores.model;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -11,10 +12,26 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name="direcciones")
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
 public class Direccion implements Serializable {
 	
 	/**
@@ -22,6 +39,8 @@ public class Direccion implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
+	/*@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dir_seq")
+    @SequenceGenerator(initialValue = 1, name = "dir_seq", sequenceName = "dir_sequence")*/
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name= "id_direccion")
     private Long id;
@@ -31,10 +50,11 @@ public class Direccion implements Serializable {
     private int estado;
     private String direccion;
     
-	@OneToMany(mappedBy="direccion", fetch = FetchType.LAZY, cascade = CascadeType.ALL)// 
-    private Set<Interlocutor> interlocutores;
+	@OneToMany(mappedBy="direccion", cascade = CascadeType.ALL, orphanRemoval = true)//fetch = FetchType.LAZY,  
+	@JsonIgnore
+	private List<Interlocutor> interlocutores;
 	
-	public Direccion() {
+	/*public Direccion() {
     }
 
     public Direccion(String pais, String departamento, String ciudad, int estado, String direccion) {
@@ -79,7 +99,7 @@ public class Direccion implements Serializable {
 
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
-	}
+	}*/
     
 	
 }

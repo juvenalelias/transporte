@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,9 +22,22 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 
 @Entity
 @Table(name="interlocutores")
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
 public class Interlocutor implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -47,12 +61,13 @@ public class Interlocutor implements Serializable {
     private TipoIdentificacion tipoIdentificacion;
     
     //@MapsId("direccion_id")
-    @ManyToOne(cascade = CascadeType.ALL)//, fetch = FetchType.LAZY, optional = false
-    @JoinColumn(name="direccion_id", nullable=false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)//,  optional = false
+    @JoinColumn(foreignKey = @ForeignKey(name = "direccion_id"), name = "direccion_id")
+//    @JoinColumn(name="direccion_id", nullable=false)
     private Direccion direccion;
     
     
-	public Interlocutor() {
+	/*public Interlocutor() {
 		//super();
 	}
 
@@ -169,7 +184,7 @@ public class Interlocutor implements Serializable {
 
 	public void setDireccion(Direccion direccion) {
 		this.direccion = direccion;
-	}
+	}*/
 	
 	
        

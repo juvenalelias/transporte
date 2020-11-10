@@ -12,6 +12,8 @@ public interface InterlocutorService {
 	
 	public List<Interlocutor> findAll();
 	public Interlocutor save(Interlocutor interlocutor);
+	public Interlocutor update(Interlocutor interlocutor);
+	public void deleteById(InterlocutorId id);
 	public List<Interlocutor> findByDireccion(long id);
 	public Optional<Interlocutor> findById(InterlocutorId id);
 	
